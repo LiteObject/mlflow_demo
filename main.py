@@ -53,6 +53,11 @@ def main() -> None:
         "random_state": 8888,
     }
 
+    # Optional: enable MLflow autologging for scikit-learn.
+    # This must be enabled BEFORE training (before model.fit).
+    # If you enable autologging, you may want to remove the manual mlflow.log_* calls below.
+    # mlflow_sklearn.autolog()
+
     # Train the Logistic Regression model using the training data
     model = LogisticRegression(**params)
     model.fit(x_train, y_train)
@@ -81,9 +86,6 @@ def main() -> None:
         mlflow.log_metric("precision", float(precision))
         mlflow.log_metric("recall", float(recall))
         mlflow.log_metric("f1", float(f1))
-
-        # Alternate option is to enable autologging for scikit-learn
-        # mlflow_sklearn.autolog()
 
         # Set a tag to describe the run
         mlflow.set_tag("Training Info", "Basic LR model for iris data")
