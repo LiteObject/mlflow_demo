@@ -18,6 +18,27 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import Bunch
 
 
+def load_iris_bunch() -> Bunch:
+    """Load the Iris dataset as a scikit-learn ``Bunch``.
+
+    A ``Bunch`` is a lightweight, dictionary-like container used by scikit-learn that
+    supports attribute-style access (e.g., ``iris.data`` and ``iris.target``) in
+    addition to key access (e.g., ``iris["data"]``).
+
+    Some static analyzers incorrectly infer the return type of ``datasets.load_iris()``
+    as a tuple in certain environments. This helper normalizes the value and makes
+    the return type explicit.
+    """
+
+    iris_raw = datasets.load_iris()
+    if isinstance(iris_raw, tuple):
+        iris_raw = iris_raw[0]
+
+    iris = cast(Bunch, iris_raw)
+    assert isinstance(iris, Bunch)
+    return iris
+
+
 def main() -> None:
     """Train a simple Iris classifier and log it to MLflow."""
     # Set the MLflow tracking URI to point to the local MLflow server
@@ -34,11 +55,10 @@ def main() -> None:
 
     # Load the Iris dataset from scikit-learn
     # Some type checkers incorrectly infer this as a tuple, so handle both cases.
-    iris_raw = datasets.load_iris()
-    iris_bunch = iris_raw[0] if isinstance(iris_raw, tuple) else iris_raw
-    iris = cast(Bunch, iris_bunch)
+    iris = load_iris_bunch()
     x = iris.data
     y = iris.target
+    # feature_names are basically the cloumn names
     feature_names = iris.feature_names
 
     # Split the data into training (80%) and testing (20%) sets
