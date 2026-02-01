@@ -48,8 +48,13 @@ def main() -> None:
 
     # Define hyperparameters for the Logistic Regression model
     params = {
+        # The optimization algorithm used to fit logistic regression
         "solver": "lbfgs",
+        # Maximum number of training iterations allowed for the solver.
         "max_iter": 1000,
+        # Seed for the model’s internal randomness (used in some solver
+        # paths / data shuffling depending on configuration).
+        # Setting it makes results more reproducible run-to-run.
         "random_state": 8888,
     }
 
@@ -58,14 +63,15 @@ def main() -> None:
     # If you enable autologging, you may want to remove the manual mlflow.log_* calls below.
     # mlflow_sklearn.autolog()
 
-    # Train the Logistic Regression model using the training data
+    # Creates an untrained/unfitted estimator (model object) instance
     model = LogisticRegression(**params)
+    # Fit/train the Logistic Regression estimator on the training data
     model.fit(x_train, y_train)
 
     # Initialize model_info explicitly
     model_info = None
 
-    # Predict on the test set to evaluate performance
+    # Predict on the test set to evaluate performanc
     y_pred = model.predict(x_test)
 
     # Calculate evaluation metrics
