@@ -133,3 +133,7 @@ Then open:
 - The script uses weighted precision/recall/F1 and sets `zero_division=0` to avoid metric errors in edge cases.
 - The experiment name is set to `MLflow Tutorial`.
 - By default, MLflow artifacts and runs will appear either in your tracking server’s configured backend store, or in the local `./mlruns` folder when falling back.
+
+## References / Further reading
+
+- MLflow Quickstart: https://mlflow.org/docs/latest/ml/getting-started/quickstart/

@@ -82,6 +82,9 @@ def main() -> None:
         mlflow.log_metric("recall", float(recall))
         mlflow.log_metric("f1", float(f1))
 
+        # Alternate option is to enable autologging for scikit-learn
+        # mlflow_sklearn.autolog()
+
         # Set a tag to describe the run
         mlflow.set_tag("Training Info", "Basic LR model for iris data")
 
